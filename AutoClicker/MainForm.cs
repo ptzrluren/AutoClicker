@@ -20,6 +20,8 @@ namespace AutoClicker {
         public static Keys DEFAULT_HOTKEY = Keys.F6;
         public static int HOTKEY_ID = 0x1;
 
+        private Random random = new Random();
+
         public static MouseMessage[] MOUSE_MESSAGES = {
             new MouseMessage { MouseDownMsg = Win32.WM_LBUTTONDOWN, MouseUpMsg = Win32.WM_LBUTTONUP, ModifierKey = Win32.MK_LBUTTON },
             new MouseMessage { MouseDownMsg = Win32.WM_RBUTTONDOWN, MouseUpMsg = Win32.WM_RBUTTONUP, ModifierKey = Win32.MK_RBUTTON },
@@ -48,6 +50,22 @@ namespace AutoClicker {
             Hotkey = DEFAULT_HOTKEY;
 
             RegisterHotkey();
+            CheckTime();
+        }
+
+        private void CheckTime()
+        {
+            DateTime currentTime = DateTime.Now;
+            DateTime specifiedTime = new DateTime(2024, 12, 31, 0, 0, 0);
+
+            if (DateTime.Compare(currentTime, specifiedTime) < 0)
+            {
+                
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         public Keys Hotkey {
@@ -129,17 +147,29 @@ namespace AutoClicker {
         }
 
         private int GetIntervalMs() {
-            return (int)(hrNumeric.Value * 3600000
+            int randomTime = random.Next(10, (int)randomNumeric.Value); // 生成1000到10000毫秒之间的随机数
+            int time = ((int)(hrNumeric.Value * 3600000
                 + minNumeric.Value * 60000
                 + secNumeric.Value * 1000
-                + msNumeric.Value);
+                + msNumeric.Value) + randomTime);
+            Console.WriteLine(time);
+            return time;
         }
 
         private Point GetCursorPos() {
-            if (currPosRadio.Checked) {
-                return Cursor.Position;
-            } else {
-                return new Point((int)xNumeric.Value, (int)yNumeric.Value);
+            // add by liubin 
+            int randomX = random.Next(0, (int)xRandomNumeric.Value);
+            int randomY = random.Next(0, (int)yRandomNumeric.Value);
+            // add by liubin 
+            if (currPosRadio.Checked)
+            {
+                // add by liubin 
+                return new Point(Cursor.Position.X + randomX, Cursor.Position.Y + randomY);
+                //return Cursor.Position;
+                // add by liubin 
+            }
+            else {
+                return new Point((int)xNumeric.Value + randomX, (int)yNumeric.Value + randomY);
             }
         }
 
@@ -238,6 +268,13 @@ namespace AutoClicker {
 
         #region Event Handlers
         private void clickTimer_Tick(object sender, EventArgs e) {
+            // add by liubin
+            clickTimer.Stop(); // 停止计时器
+            clickTimer.Interval = GetIntervalMs();
+            clickTimer.Start(); // 重新开始计时器
+            // end add
+
+
             HandleClick(true, true);
             if (clickTypeCombo.SelectedItem.Equals("Double")) {
                 HandleClick(true, true);
