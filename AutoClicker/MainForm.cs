@@ -60,7 +60,7 @@ namespace AutoClicker {
 
             if (DateTime.Compare(currentTime, specifiedTime) < 0)
             {
-                
+                //
             }
             else
             {
