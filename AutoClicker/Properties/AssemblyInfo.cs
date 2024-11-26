@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AutoClicker")]
-[assembly: AssemblyDescription("Portable auto clicker for Windows")]
+[assembly: AssemblyTitle("电击")]
+[assembly: AssemblyDescription("easy click for Windows")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Pontakorn Prasertsuk @peppapighs")]
-[assembly: AssemblyProduct("AutoClicker")]
+[assembly: AssemblyCompany("电击")]
+[assembly: AssemblyProduct("电击")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
