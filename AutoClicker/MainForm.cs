@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -55,7 +57,16 @@ namespace AutoClicker {
 
         private void CheckTime()
         {
-            DateTime currentTime = DateTime.Now;
+            // 创建一个WebRequest对象，指定要请求的时间服务器的URL
+            WebRequest request = WebRequest.Create("https://www.baidu.com");
+            // 获取响应
+            WebResponse response = request.GetResponse();
+            // 从响应中获取时间信息
+            string dateStr = response.Headers["Date"];
+            // 将时间字符串转换为DateTime对象
+            DateTime currentTime = DateTime.Parse(dateStr);
+
+            //DateTime currentTime = DateTime.Now;
             DateTime specifiedTime = new DateTime(2024, 12, 31, 0, 0, 0);
 
             if (DateTime.Compare(currentTime, specifiedTime) < 0)
@@ -142,8 +153,26 @@ namespace AutoClicker {
             }
             StringBuilder title = new StringBuilder(length + 1);
             Win32.GetWindowText(handle, title, title.Capacity);
-
+            
             return title.ToString();
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetParent(IntPtr hWnd);
+
+        public static string GetParentWindowName(IntPtr childHandle)
+        {
+            IntPtr parentHandle1 = GetParent(childHandle);
+            IntPtr parentHandle2 = GetParent(parentHandle1);
+            IntPtr parentHandle3 = GetParent(parentHandle2);
+            if (parentHandle3 == IntPtr.Zero)
+                return "No parent window";
+
+            int length = Win32.GetWindowTextLength(parentHandle3);
+            StringBuilder builder = new StringBuilder(length + 1);
+            Win32.GetWindowText(parentHandle3, builder, builder.Capacity);
+
+            return builder.ToString();
         }
 
         private int GetIntervalMs() {
@@ -188,7 +217,7 @@ namespace AutoClicker {
             for (int i = 0; i < mouseButton.Length; i++) {
                 if (mouseButton[i]) {
                     Win32.PostMessage(selectedHandle, MOUSE_MESSAGES[i].MouseUpMsg,
-                        (IntPtr)MOUSE_MESSAGES[i].ModifierKey, lParam);
+                        (IntPtr)0000, lParam);
                 }
             }
         }
@@ -335,6 +364,7 @@ namespace AutoClicker {
                 selectedHandle = currHandle;
                 handleText.Text = currHandle.ToString("X8");
                 titleText.Text = GetWindowTitle(currHandle);
+                this.Text = GetParentWindowName(currHandle);
             }
         }
 
