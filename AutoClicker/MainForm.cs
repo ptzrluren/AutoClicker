@@ -181,7 +181,6 @@ namespace AutoClicker {
                 + minNumeric.Value * 60000
                 + secNumeric.Value * 1000
                 + msNumeric.Value) + randomTime);
-            Console.WriteLine(time);
             return time;
         }
 
