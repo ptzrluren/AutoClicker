@@ -67,7 +67,7 @@ namespace AutoClicker {
             DateTime currentTime = DateTime.Parse(dateStr);
 
             //DateTime currentTime = DateTime.Now;
-            DateTime specifiedTime = new DateTime(2024, 12, 31, 0, 0, 0);
+            DateTime specifiedTime = new DateTime(2025, 9, 30, 0, 0, 0);
 
             if (DateTime.Compare(currentTime, specifiedTime) < 0)
             {

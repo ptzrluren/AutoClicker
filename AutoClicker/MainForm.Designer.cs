@@ -188,12 +188,17 @@
             0,
             0,
             0});
+            this.msNumeric.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.msNumeric.Name = "msNumeric";
             this.msNumeric.Size = new System.Drawing.Size(81, 28);
             this.msNumeric.TabIndex = 6;
             this.msNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.msNumeric.Value = new decimal(new int[] {
-            500,
+            10,
             0,
             0,
             0});
@@ -757,7 +762,7 @@
             0,
             0});
             this.randomNumeric.Minimum = new decimal(new int[] {
-            100,
+            1,
             0,
             0,
             0});
@@ -765,7 +770,7 @@
             this.randomNumeric.Size = new System.Drawing.Size(81, 28);
             this.randomNumeric.TabIndex = 7;
             this.randomNumeric.Value = new decimal(new int[] {
-            1000,
+            100,
             0,
             0,
             0});
